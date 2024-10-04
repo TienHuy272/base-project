@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: BaseProject
-#  profiles:
-#    active: default
 #  jpa:
 #    generate-ddl: false
 #    hibernate:

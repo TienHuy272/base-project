@@ -3,23 +3,23 @@ server:
 spring:
   application:
     name: BaseProject
-#  profiles:
-#    active: default
-#  jpa:
-#    generate-ddl: false
-#    hibernate:
-#      ddl-auto: validate
-#      naming:
-#        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-#        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL8Dialect
-#  flyway:
-#    enabled: true
-#    locations: classpath:/db/migration
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/demo-db?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=TRUE
-#    username: admin
-#    password: admin123
+  profiles:
+    active: default
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  flyway:
+    enabled: true
+    locations: classpath:/database
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/base-db?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=TRUE
+    username: root
+    password: admin12345
