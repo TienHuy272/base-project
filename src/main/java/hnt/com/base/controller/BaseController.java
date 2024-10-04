@@ -1,13 +1,17 @@
 package hnt.com.base.controller;
 
 import hnt.com.base.config.JwtUtil;
+import hnt.com.base.error.ErrorResponse;
 import hnt.com.base.model.LoginUserInfo;
 import hnt.com.base.model.LoginUserResponse;
 import hnt.com.base.model.TokenModel;
 import hnt.com.base.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +34,7 @@ public class BaseController {
     }
 
     @PostMapping("/login")
-    public LoginUserResponse login(@RequestBody UserModel request) throws Exception {
+    public ResponseEntity<?> login(@RequestBody UserModel request) throws Exception {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
@@ -43,9 +47,11 @@ public class BaseController {
             loginUserResponse.setUsername(user.getUsername());
             loginUserResponse.setEmail(user.getEmail());
             loginUserResponse.setRole(authentication.getAuthorities().iterator().next().getAuthority());
-            return loginUserResponse;
-        } catch (Exception e) {
-            throw new Exception("Incorrect username or password", e);
+            return ResponseEntity.ok(loginUserResponse);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ErrorResponse("Incorrect username or password")
+            );
         }
     }
 
