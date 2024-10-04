@@ -6,6 +6,7 @@ import hnt.com.base.model.LoginUserInfo;
 import hnt.com.base.model.LoginUserResponse;
 import hnt.com.base.model.TokenModel;
 import hnt.com.base.model.UserModel;
+import hnt.com.base.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,7 @@ public class BaseController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
     @GetMapping("/ping")
     public String ping() {
@@ -49,9 +52,15 @@ public class BaseController {
             loginUserResponse.setRole(authentication.getAuthorities().iterator().next().getAuthority());
             return ResponseEntity.ok(loginUserResponse);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ErrorResponse("Incorrect username or password")
-            );
+            if (userRepository.findFirstByUsername(request.getUsername()).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ErrorResponse("Username not found ")
+                );
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ErrorResponse("Incorrect password")
+                );
+            }
         }
     }
 
