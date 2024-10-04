@@ -42,6 +42,7 @@ public class BaseController {
             loginUserResponse.setRefreshToken(tokenModel.getRefreshToken());
             loginUserResponse.setUsername(user.getUsername());
             loginUserResponse.setEmail(user.getEmail());
+            loginUserResponse.setRole(authentication.getAuthorities().iterator().next().getAuthority());
             return loginUserResponse;
         } catch (Exception e) {
             throw new Exception("Incorrect username or password", e);
