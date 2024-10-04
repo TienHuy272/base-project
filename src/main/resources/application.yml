@@ -4,7 +4,7 @@ spring:
   application:
     name: BaseProject
   profiles:
-    active: default
+    active: dev
   jpa:
     generate-ddl: false
     hibernate:
