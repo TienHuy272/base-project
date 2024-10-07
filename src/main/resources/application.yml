@@ -4,7 +4,7 @@ spring:
   application:
     name: BaseProject
   profiles:
-    active: dev
+    active: default
   jpa:
     generate-ddl: false
     hibernate:
@@ -23,3 +23,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3307/base-db?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=TRUE
     username: root
     password: admin12345
+
+  security:
+    oauth2:
+      resourceserver:
+        opaque-token:
+          introspection-uri: https://www.googleapis.com
+          client-id: "17065402412-61h48hvuibs5jq3hkl7rul1gtoiskoqi.apps.googleusercontent.com"
+          client-secret: "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"
