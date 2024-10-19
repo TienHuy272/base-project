@@ -45,7 +45,10 @@ public class WebSecurityConfig {
                 .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/","/login", "/auth/*", "/public/*", "/api/v1/product-category/*").permitAll()
+                        .requestMatchers("/","/login", "/auth/*",
+                                "/public/*",
+                                "/api/v1/product-category/*",
+                                "/api/v1/product-category/product/*").permitAll()
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
 
