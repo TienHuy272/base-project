@@ -3,6 +3,8 @@ package hnt.com.base.controller;
 import hnt.com.base.dto.ProductCategoryDto;
 import hnt.com.base.dto.ProductCategorySummary;
 import hnt.com.base.dto.ProductSummary;
+import hnt.com.base.practice.subselect.ProductReport;
+import hnt.com.base.practice.subselect.ProductReportRepository;
 import hnt.com.base.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductRepository productRepository;
+    private final ProductReportRepository productReportRepository;
 
     @GetMapping("/{categoryName}")
     public List<ProductCategoryDto> getUsers(@PathVariable String categoryName) {
@@ -39,5 +42,10 @@ public class ProductController {
         System.out.println("INFO: " + productSummaryOptional.get().getInfo());
         System.out.println("PRICE: " + productSummaryOptional.get().getPrice());
         return productSummaryOptional.get().getName();
+    }
+
+    @GetMapping("/product-report")
+    public List<ProductReport> getProductReport() {
+        return productReportRepository.findAll();
     }
 }
